@@ -3,7 +3,6 @@ from tkinter import ttk
 from tkinter import filedialog
 import pandas as pd
 import openpyxl
-import os
 from os import path
 
 
@@ -11,19 +10,16 @@ window = tk.Tk()
 window.title("xlsxViewer")
 window.geometry('500x500')
 
-
 tab_control = ttk.Notebook(window)
 tab_control.pack(expand=1, fill='both')
 tab_file = ttk.Frame(tab_control)
 tab_control.add(tab_file, text='File')
 tab_control.pack(expand=1, fill='both')
 
-
 sheets = []
 lbl_sheets_num = []
 btn_sheets = []
 tabs_sheets = []
-
 
 def createTabSheet(sheets_it):
     tabs_sheets.insert(sheets_it, ttk.Frame(tab_control))
@@ -36,7 +32,9 @@ def createTabSheet(sheets_it):
         while True:
             try:
                 tk.Label(tabs_sheets[sheets_it], text=sheets[sheets_it][cols_it][rows_it],
-                         font=("Times", 10)).grid(column=cols_it, row=rows_it)
+                         font=("Times", 10), relief="ridge", width=14 if cols_it == 0 else 10,
+                         anchor="w" if cols_it == 0 else "center")\
+                    .grid(column=cols_it, row=rows_it)
                 flag1 = False
             except KeyError:
                 if flag1:
@@ -76,6 +74,5 @@ def selectFile():
 
 
 btn_select_file = tk.Button(tab_file, text="Select a file", command=selectFile, font=("Times", 30)).grid(column=0, row=0)
-
 
 window.mainloop()
